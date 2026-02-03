@@ -1,0 +1,240 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Top Actions Bar -->
+<div class="row mb-4 g-3">
+    <!-- Bouton Ajouter -->
+    <div class="col-lg-6">
+        <a href="{{ url_for('ajouter') }}" class="btn btn-success btn-lg w-100 shadow-lg">
+            <i class="fas fa-plus-circle me-2"></i>Ajouter un produit
+        </a>
+    </div>
+
+    <!-- Valeur totale -->
+    <div class="col-lg-6">
+        <div class="card border-0 h-100" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <h6 class="text-muted mb-2 fw-bold">
+                        <i class="fas fa-chart-line me-2"></i>Valeur Totale du Stock
+                    </h6>
+                    <h3 class="mb-0 fw-bold" style="color: #667eea;">
+                        {{ "%.2f"|format(total_valeur) }} €
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alertes stock faible -->
+{% if alertes %}
+<div class="alert alert-warning shadow-lg mb-4">
+    <div class="d-flex align-items-start">
+        <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+        </div>
+        <div class="flex-grow-1">
+            <h5 class="alert-heading fw-bold">
+                ⚠️ Stock faible détecté !
+            </h5>
+            <p class="mb-2">{{ alertes|length }} produit(s) nécessite(nt) votre attention :</p>
+            <ul class="mb-0">
+                {% for produit in alertes %}
+                    <li>
+                        <strong>{{ produit.nom }}</strong>
+                        <span class="badge bg-danger ms-2">{{ produit.quantite }} unités</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Tableau des produits -->
+<div class="card shadow-lg">
+    <div class="card-header bg-gradient text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 fw-bold">
+                <i class="fas fa-list me-2"></i>Liste des produits
+            </h4>
+            <span class="badge bg-white text-primary">
+                {{ produits|length }} produit(s)
+            </span>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- Formulaire de recherche -->
+        <form method="POST" action="{{ url_for('rechercher') }}" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" name="recherche_nom" class="form-control border-start-0"
+                               placeholder="Nom du produit..." autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0">
+                            <i class="fas fa-tag text-muted"></i>
+                        </span>
+                        <input type="text" name="recherche_categorie" class="form-control border-start-0"
+                               placeholder="Catégorie..." autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-1"></i>Chercher
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary w-100">
+                        <i class="fas fa-sync me-1"></i>Reset
+                    </a>
+                </div>
+            </div>
+        </form>
+
+        <!-- Tableau -->
+        {% if produits %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <th class="text-center" style="border-radius: 10px 0 0 10px;">
+                            <i class="fas fa-hashtag me-1"></i>ID
+                        </th>
+                        <th><i class="fas fa-box me-1"></i>Nom</th>
+                        <th><i class="fas fa-tags me-1"></i>Catégorie</th>
+                        <th class="text-center"><i class="fas fa-cubes me-1"></i>Quantité</th>
+                        <th class="text-center"><i class="fas fa-euro-sign me-1"></i>Prix</th>
+                        <th class="text-center"><i class="fas fa-calculator me-1"></i>Valeur</th>
+                        <th class="text-center"><i class="fas fa-signal me-1"></i>Statut</th>
+                        <th class="text-center" style="border-radius: 0 10px 10px 0;">
+                            <i class="fas fa-cog me-1"></i>Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produit in produits %}
+                    <tr class="product-row" style="transition: all 0.3s ease;">
+                        <td class="text-center">
+                            <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                {{ produit.id }}
+                            </span>
+                        </td>
+                        <td class="fw-bold">{{ produit.nom }}</td>
+                        <td>
+                            <span class="badge rounded-pill" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333;">
+                                <i class="fas fa-tag me-1"></i>{{ produit.categorie }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            {% if produit.est_en_alerte() %}
+                                <span class="badge bg-danger fs-6 px-3 py-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>{{ produit.quantite }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success fs-6 px-3 py-2">
+                                    <i class="fas fa-check-circle me-1"></i>{{ produit.quantite }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center fw-bold">{{ "%.2f"|format(produit.prix) }} €</td>
+                        <td class="text-center">
+                            <span class="badge bg-info text-dark fs-6 px-3 py-2">
+                                {{ "%.2f"|format(produit.valeur_totale()) }} €
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            {% if produit.est_en_alerte() %}
+                                <span class="badge bg-danger px-3 py-2">
+                                    <i class="fas fa-exclamation-circle me-1"></i>Faible
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success px-3 py-2">
+                                    <i class="fas fa-check-circle me-1"></i>Optimal
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('modifier', id=produit.id) }}"
+                                   class="btn btn-sm btn-warning px-3"
+                                   title="Modifier"
+                                   style="border-radius: 10px 0 0 10px;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ url_for('supprimer', id=produit.id) }}"
+                                   class="btn btn-sm btn-danger px-3"
+                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')"
+                                   title="Supprimer"
+                                   style="border-radius: 0 10px 10px 0;">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4" style="font-size: 80px; opacity: 0.3;">
+                <i class="fas fa-box-open"></i>
+            </div>
+            <h4 class="text-muted mb-3">📦 Aucun produit dans le stock</h4>
+            <p class="text-muted mb-4">Commencez par ajouter votre premier produit !</p>
+            <a href="{{ url_for('ajouter') }}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus-circle me-2"></i>Ajouter maintenant
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .product-row:hover {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        transform: scale(1.01);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-group-text {
+        border-radius: 12px 0 0 12px !important;
+    }
+
+    .input-group .form-control {
+        border-left: 0;
+        border-radius: 0 12px 12px 0 !important;
+    }
+
+    .input-group .form-control:focus {
+        box-shadow: none;
+        border-color: #e9ecef;
+    }
+
+    .table thead th {
+        padding: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+    }
+
+    .table tbody td {
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    .btn-group .btn {
+        margin: 0 !important;
+    }
+</style>
+{% endblock %}

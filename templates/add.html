@@ -1,0 +1,165 @@
+<!-- templates/add.html -->
+{% extends "base.html" %}
+
+{% block title %}Ajouter un Produit{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header text-white position-relative overflow-hidden"
+                 style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); padding: 30px;">
+                <div class="position-relative" style="z-index: 2;">
+                    <h3 class="mb-2 fw-bold">
+                        <i class="fas fa-plus-circle me-3"></i>Ajouter un nouveau produit
+                    </h3>
+                    <p class="mb-0 opacity-75">Remplissez les informations ci-dessous</p>
+                </div>
+                <div class="position-absolute top-0 end-0" style="font-size: 150px; opacity: 0.1; z-index: 1;">
+                    <i class="fas fa-box"></i>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <!-- Nom du produit -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-box text-success me-2"></i>
+                            Nom du produit <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" name="nom" class="form-control form-control-lg"
+                               placeholder="Ex: iPhone 15 Pro" required autofocus>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>Saisissez un nom descriptif pour le produit
+                        </div>
+                    </div>
+
+                    <!-- Catégorie -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-tags text-success me-2"></i>
+                            Catégorie <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" name="categorie" class="form-control form-control-lg"
+                               placeholder="Ex: Électronique" required>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>Classez votre produit dans une catégorie
+                        </div>
+                    </div>
+
+                    <!-- Quantité et Prix -->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-cubes text-success me-2"></i>
+                                Quantité <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <input type="number" name="quantite" class="form-control"
+                                       min="0" value="1" required>
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-sort-amount-up"></i>
+                                </span>
+                            </div>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>Quantité en stock
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-euro-sign text-success me-2"></i>
+                                Prix unitaire <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <input type="number" name="prix" class="form-control"
+                                       step="0.01" min="0" value="0.00" required>
+                                <span class="input-group-text bg-light">€</span>
+                            </div>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>Prix par unité
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seuil d'alerte -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-bell text-warning me-2"></i>
+                            Seuil d'alerte (optionnel)
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <input type="number" name="seuil_alerte" class="form-control"
+                                   min="0" value="5" placeholder="5">
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-exclamation-triangle text-warning"></i>
+                            </span>
+                        </div>
+                        <div class="alert alert-info mt-2 border-0" style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <small>Une alerte s'affichera automatiquement lorsque le stock atteindra ce seuil</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Buttons -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success btn-lg w-100 shadow">
+                                <i class="fas fa-save me-2"></i>Enregistrer le produit
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg w-100">
+                                <i class="fas fa-arrow-left me-2"></i>Annuler et retour
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card mt-4 border-0 shadow-sm" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-question-circle me-2"></i>Conseils pour ajouter un produit
+                </h6>
+                <ul class="mb-0 small">
+                    <li>Utilisez des noms <strong>descriptifs et clairs</strong></li>
+                    <li>Organisez vos produits par <strong>catégories cohérentes</strong></li>
+                    <li>Définissez un <strong>seuil d'alerte</strong> pour éviter les ruptures de stock</li>
+                    <li>Vérifiez bien les <strong>prix et quantités</strong> avant d'enregistrer</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control-lg {
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+
+    .input-group-text {
+        border: 2px solid #e9ecef;
+        background: #f8f9fa;
+    }
+
+    .form-text {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .card-header {
+        border: none !important;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
