@@ -1,10 +1,10 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import Database
+import secrets
 
 app = Flask(__name__)
-app.secret_key = 'votre_cle_secrete'  # Pour les messages flash
-
+app.secret_key = secrets.token_hex(32)
 db = Database()
 
 
