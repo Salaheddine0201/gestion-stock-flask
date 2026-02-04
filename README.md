@@ -3,7 +3,7 @@
 Application web de gestion de stock avec interface moderne (Bootstrap 5).  
 POO Python + Flask + SQLite + HTML/CSS.
 
-![Screenshot](screenshot.png)
+![Screenshot](static/images/screenshot.png)
 
 ## ✨ Fonctionnalités
 
