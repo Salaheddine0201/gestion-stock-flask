@@ -1,9 +1,10 @@
 # 📦 Gestion de Stock - CRUD Flask
 
-[![Déployé sur Railway](https://railway.app/button.svg)](https://gestion-stock-flask-production.up.railway.app/)
-[![Statut](https://img.shields.io/badge/statut-en%20ligne-brightgreen.svg)](https://gestion-stock-flask-production.up.railway.app/)
+[![Déployé sur Replit](https://replit.com/badge/github/Salaheddine0201/gestion-stock-flask)](https://replit.com/@votre-username/gestion-stock-flask)
+[![Statut](https://img.shields.io/badge/statut-en%20ligne-brightgreen.svg)](https://cb048614-977c-4243-9e90-6a9a0f1ed30e-00-3srtknyoenaxb.worf.replit.dev/)
 
-**Essayez l'application en ligne** → https://gestion-stock-flask-production.up.railway.app/
+**Essayez l'application en ligne (100% gratuit, sans carte bancaire)** →  
+https://cb048614-977c-4243-9e90-6a9a0f1ed30e-00-3srtknyoenaxb.worf.replit.dev/
 
 Application web de gestion de stock avec interface moderne (Bootstrap 5).  
 POO Python + Flask + SQLite + HTML/CSS.
@@ -23,9 +24,10 @@ POO Python + Flask + SQLite + HTML/CSS.
 
 Pas besoin d'installer quoi que ce soit — testez directement :
 
-🔗 **https://gestion-stock-flask-production.up.railway.app/**
+🔗 **https://cb048614-977c-4243-9e90-6a9a0f1ed30e-00-3srtknyoenaxb.worf.replit.dev/**
 
-> 💡 *Note : Les données sont réinitialisées automatiquement toutes les 24h sur Railway (version gratuite).*
+> 💡 *Note : Replit est une plateforme 100% gratuite sans exigence de carte bancaire.  
+> L'application peut prendre 10-15 secondes à démarrer au premier accès ("cold start").*
 
 ## 🚀 Installation & Lancement (en local)
 
